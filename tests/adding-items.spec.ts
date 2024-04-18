@@ -30,3 +30,19 @@ test("should be able to add a single todo item",
 
 );
 
+test("should be able to add multiple todo items",
+    async( {page} ) => {
+        const newTodoField = page.locator(".new-todo");
+        const displayedTodoItems = page.locator(".todo-list li");
+
+        await page.goto("https://todomvc.com/examples/emberjs/todomvc/dist/");
+        await newTodoField.fill("feed the dog");
+        await newTodoField.press("Enter");
+
+        await newTodoField.fill("snuggle with the cat");
+        await newTodoField.press("Enter");
+
+        await expect(displayedTodoItems).toHaveCount(2);
+        await expect(displayedTodoItems).toHaveText(["feed the dog", "snuggle with the cat"]);
+    }
+);
