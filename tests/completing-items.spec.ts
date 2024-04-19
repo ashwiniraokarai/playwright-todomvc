@@ -24,6 +24,6 @@ test("should be able to complete a single todo item from multiple todo items",
         //await expect(itemToComplete).toHaveClass("completed ");
         await expect(itemToComplete).toHaveClass(/completed/);
 
-        page.close();
+        await page.close();
     }
 );
