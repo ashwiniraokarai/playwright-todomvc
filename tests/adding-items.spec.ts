@@ -1,9 +1,16 @@
 import { test, expect } from "@playwright/test";
 
+let newTodoField;
+let displayedTodoItems;
 
 test.beforeEach(
     async({ page })=>{
         await page.goto("https://todomvc.com/examples/emberjs/todomvc/dist/");
+        newTodoField = page.locator(".new-todo");
+
+        //Instead of the li, you could even target the label inside the li directly which embeds the text, like so:
+        //".todo-list label"
+        displayedTodoItems = page.locator(".todo-list li");
     }
 )
 
@@ -18,12 +25,6 @@ test("the input box should display a helpful prompt",
 
 test("should be able to add a single todo item", 
     async ( { page } ) => {
-        const newTodoField = page.locator(".new-todo");
-        
-        //Instead of the li, you could even target the label inside the li directly which embeds the text, like so:
-        //".todo-list label"
-        const displayedTodoItems = page.locator(".todo-list li");
-
         await newTodoField.fill("feed the dog");
         await newTodoField.press("Enter");
         await expect(displayedTodoItems).toHaveCount(1);
@@ -38,9 +39,6 @@ test("should be able to add a single todo item",
 
 test("should be able to add multiple todo items",
     async( {page} ) => {
-        const newTodoField = page.locator(".new-todo");
-        const displayedTodoItems = page.locator(".todo-list li");
-
         await newTodoField.fill("feed the dog");
         await newTodoField.press("Enter");
 
