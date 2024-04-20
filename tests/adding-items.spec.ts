@@ -25,23 +25,23 @@ test("the input box should display a helpful prompt",
 
 test.describe("when adding a single todo item", 
     async()=>{
-        test("should be shown the newly added item", 
-            async ( { page } ) => {
+        test.beforeEach("submit a todo item",
+            async({page}) => {
                 await newTodoField.fill("feed the dog");
                 await newTodoField.press("Enter");
-                await expect(displayedTodoItems).toHaveCount(1);
+        })
 
+        test("should be shown the newly added item", 
+            async ( { page } ) => {
+                await expect(displayedTodoItems).toHaveCount(1);
                 await expect(displayedTodoItems)
                                     .toHaveText("feed the dog");   
                 await page.close();
             }
         );
+
         test("be shown the count of remaining items", 
             async ( { page } ) => {
-                await newTodoField.fill("feed the dog");
-                await newTodoField.press("Enter");
-                await expect(displayedTodoItems).toHaveCount(1);
-        
                 await expect(page.locator(".todo-count"))
                                     .toHaveText("1 item left");
                 await page.close();
