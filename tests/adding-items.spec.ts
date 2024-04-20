@@ -18,7 +18,6 @@ test("the input box should display a helpful prompt",
     async( { page }) => {
         await expect(page.locator(".new-todo"))
                         .toHaveAttribute("placeholder","What needs to be done?");
-        await page.close();
     }
    
 );
@@ -36,7 +35,6 @@ test.describe("when adding a single todo item",
                 await expect(displayedTodoItems).toHaveCount(1);
                 await expect(displayedTodoItems)
                                     .toHaveText("feed the dog");   
-                await page.close();
             }
         );
 
@@ -65,8 +63,6 @@ test.describe("when adding multiple todo items",
         test("should be shown all the added items",
             async( {page} ) => {
                 await expect(displayedTodoItems).toHaveText(["feed the dog", "snuggle with the cat"]);
-
-                await page.close();
             }
         );
 
@@ -74,10 +70,14 @@ test.describe("when adding multiple todo items",
             async( {page} ) => {
                 await expect(page.locator(".todo-count"))
                                     .toHaveText("2 items left");
-
-                await page.close();
             }
         );
+    }
+);
+
+test.afterEach("close the page", 
+    async({page}) => {
+        await page.close();
     }
 );
 
