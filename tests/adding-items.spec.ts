@@ -50,12 +50,6 @@ test.describe("when adding a single todo item",
     }
 );
 
-
-
-
-
-
-
 test("should be able to add multiple todo items",
     async( {page} ) => {
         await newTodoField.fill("feed the dog");
