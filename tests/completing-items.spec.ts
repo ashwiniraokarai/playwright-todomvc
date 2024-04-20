@@ -1,29 +1,55 @@
 import { test, expect } from "@playwright/test";
 
-test("should be able to complete a single todo item from multiple todo items",
-    async( {page} ) => {
-        const newTodoField = page.locator(".new-todo");
-        const displayedTodoItems = page.locator(".todo-list li");
-        const itemToComplete = page.locator(".todo-list li", { hasText: "feed the dog"});
+let newTodoField;
+let displayedTodoItems;
 
+test.beforeEach(
+    async({page}) => {
         await page.goto("https://todomvc.com/examples/emberjs/todomvc/dist/");
+        newTodoField = page.locator(".new-todo");
+        displayedTodoItems = page.locator(".todo-list li");
+    }
+);
 
-        //add two items so you can complete one of them after
-        await newTodoField.fill("feed the dog");
-        await newTodoField.press("Enter");
+test.describe("when completing a single todo item from multiple todo items",
+    async()=>{
+        let itemToComplete;
 
-        await newTodoField.fill("snuggle with the cat");
-        await newTodoField.press("Enter");
+        test.beforeEach("add multiple todo items and complete one of them", 
+            async({page})=>{
+                //add two items so you can complete one of them after
+                await newTodoField.fill("feed the dog");
+                await newTodoField.press("Enter");
 
-        await expect(displayedTodoItems).toHaveCount(2);
-        await expect(displayedTodoItems).toHaveText(["feed the dog", "snuggle with the cat"]);
-        
-        //complete an item and validate
-        await itemToComplete.locator(".toggle").check();
-        
-        //await expect(itemToComplete).toHaveClass("completed ");
-        await expect(itemToComplete).toHaveClass(/completed/);
+                await newTodoField.fill("snuggle with the cat");
+                await newTodoField.press("Enter");
 
+                await expect(displayedTodoItems).toHaveCount(2);
+                await expect(displayedTodoItems).toHaveText(["feed the dog", "snuggle with the cat"]);
+
+                itemToComplete = page.locator(".todo-list li", { hasText: "feed the dog"});
+                await itemToComplete.locator(".toggle").check();
+            }
+        );
+
+        test("the completed item should be shown struck off",
+            async({page}) => {
+                //validate the completed item
+                //await expect(itemToComplete).toHaveClass("completed ");
+                await expect(itemToComplete).toHaveClass(/completed/);
+            }
+        );
+
+        test("should be shown the updated count of remaining items",
+            async( {page} ) => {
+                await expect(page.locator(".todo-count")).toHaveText("1 item left");
+            }
+        );
+    }
+);
+
+test.afterEach("close the page", 
+    async({page}) => {
         await page.close();
     }
 );
