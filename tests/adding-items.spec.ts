@@ -23,29 +23,36 @@ test("the input box should display a helpful prompt",
    
 );
 
-test("should be able to add a single todo item and be shown the added item", 
-    async ( { page } ) => {
-        await newTodoField.fill("feed the dog");
-        await newTodoField.press("Enter");
-        await expect(displayedTodoItems).toHaveCount(1);
+test.describe("when adding a single todo item", 
+    async()=>{
+        test("should be shown the newly added item", 
+            async ( { page } ) => {
+                await newTodoField.fill("feed the dog");
+                await newTodoField.press("Enter");
+                await expect(displayedTodoItems).toHaveCount(1);
 
-        await expect(displayedTodoItems)
-                            .toHaveText("feed the dog");   
-        await page.close();
+                await expect(displayedTodoItems)
+                                    .toHaveText("feed the dog");   
+                await page.close();
+            }
+        );
+        test("be shown the count of remaining items", 
+            async ( { page } ) => {
+                await newTodoField.fill("feed the dog");
+                await newTodoField.press("Enter");
+                await expect(displayedTodoItems).toHaveCount(1);
+        
+                await expect(page.locator(".todo-count"))
+                                    .toHaveText("1 item left");
+                await page.close();
+            }
+       );
     }
 );
 
-test("should be able to add a single todo item and be shown the count of remaining items", 
-    async ( { page } ) => {
-        await newTodoField.fill("feed the dog");
-        await newTodoField.press("Enter");
-        await expect(displayedTodoItems).toHaveCount(1);
-  
-        await expect(page.locator(".todo-count"))
-                            .toHaveText("1 item left");
-        await page.close();
-    }
-);
+
+
+
 
 
 
