@@ -1,9 +1,10 @@
 import { test, expect, Locator } from "@playwright/test";
 import { TodoForm } from "./page-classes/todo-form.ts";
 
+let todoForm: TodoForm;
 let newTodoField: Locator;
 let displayedTodoItems: Locator;
-let todoForm: TodoForm;
+let countOfRemainingToDos: Locator;
 
 test.beforeEach(
     async({ page })=>{
@@ -12,6 +13,7 @@ test.beforeEach(
         //Invoke the page object to grab locator(s)
         todoForm = new TodoForm(page);
         newTodoField = todoForm.newToDoField();
+        countOfRemainingToDos = todoForm.countOfRemainingToDos();
 
         //Instead of the li, you could even target the label inside the li directly which embeds the text, like so:
         //".todo-list label"
@@ -44,7 +46,7 @@ test.describe("when adding a single todo item",
 
         test("be shown the count of remaining items", 
             async ( { page } ) => {
-                await expect(todoForm.countOfRemainingToDos())
+                await expect(countOfRemainingToDos)
                                     .toHaveText("1 item left");
                 await page.close();
             }
@@ -68,7 +70,7 @@ test.describe("when adding multiple todo items",
 
         test("should be shown the count of remaining items",
             async( {page} ) => {
-                await expect(todoForm.countOfRemainingToDos())
+                await expect(countOfRemainingToDos)
                                     .toHaveText("2 items left");
             }
         );
