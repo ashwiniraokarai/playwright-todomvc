@@ -15,7 +15,21 @@ export class TodoForm {
     right before performing an action.
     ********************************************************************************
     */
+
     newToDoField(){
         return this.page.locator(".new-todo");
+    }
+
+    
+    /*
+    ********************************************************************************
+    Functions that act on page locators (locators 
+    resolve to elements right before they're acted on) 
+    ********************************************************************************
+    */
+
+    async addItem(textForTodoItem: string){
+        await this.newToDoField().fill(textForTodoItem);
+        await this.newToDoField().press("Enter");
     }
 }

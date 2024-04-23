@@ -31,8 +31,7 @@ test.describe("when adding a single todo item",
     async()=>{
         test.beforeEach("submit a todo item",
             async({page}) => {
-                await newTodoField.fill("feed the dog");
-                await newTodoField.press("Enter");
+                await todoForm.addItem("feed the dog");
         })
 
         test("should be shown the newly added item", 
@@ -57,11 +56,8 @@ test.describe("when adding multiple todo items",
     async()=>{
         test.beforeEach("add multiple todo items",
             async({page}) => {
-                await newTodoField.fill("feed the dog");
-                await newTodoField.press("Enter");
-
-                await newTodoField.fill("snuggle with the cat");
-                await newTodoField.press("Enter");
+                await todoForm.addItem("feed the dog");
+                await todoForm.addItem("snuggle with the cat");
             }
         )
         test("should be shown all the added items",
