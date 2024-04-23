@@ -1,6 +1,7 @@
 import { test, expect, Locator } from "@playwright/test";
 import { TodoForm } from "./page-classes/todo-form.ts";
 import { TodoList } from "./page-classes/todo-list.ts";
+import { Navigate } from "./page-classes/navigate.ts";
 
 let todoForm: TodoForm;
 let newTodoField: Locator;
@@ -9,10 +10,12 @@ let todoList: TodoList;
 let countOfRemainingToDos: Locator;
 let displayedTodoItems: Locator;
 
+let navigate: Navigate;
 
 test.beforeEach(
     async({ page })=>{
-        await page.goto("https://todomvc.com/examples/emberjs/todomvc/dist/");
+        navigate = new Navigate(page);
+        await navigate.toHomePage();
        
         //Invoke the page object to grab locator(s)
         todoForm = new TodoForm(page);
