@@ -2,7 +2,7 @@
 import { Page } from "@playwright/test"
 
 export class TodoForm {
-    page: Page;
+    readonly page: Page;
 
     constructor(page: Page){
         this.page = page;

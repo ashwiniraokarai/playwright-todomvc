@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test"
 
 export class TodoList{
-    page: Page;
+    readonly page: Page;
 
     constructor(page: Page){
         this.page = page;
@@ -18,6 +18,12 @@ export class TodoList{
     countOfRemainingToDos(){
         return this.page.locator(".todo-count");
     }
+
+    displayedTodoItems(){
+        //Instead of the li, you could even target the label inside the li directly which embeds the text, like so:
+        //".todo-list label"
+        return this.page.locator(".todo-list li");
+    }
     
     /*
     ********************************************************************************
@@ -25,4 +31,6 @@ export class TodoList{
     resolve to elements right before they're acted on) 
     ********************************************************************************
     */
+
+
 }

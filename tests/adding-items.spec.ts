@@ -7,7 +7,6 @@ let newTodoField: Locator;
 
 let todoList: TodoList;
 let countOfRemainingToDos: Locator;
-
 let displayedTodoItems: Locator;
 
 
@@ -21,10 +20,7 @@ test.beforeEach(
 
         todoList = new TodoList(page);
         countOfRemainingToDos = todoList.countOfRemainingToDos();
-
-        //Instead of the li, you could even target the label inside the li directly which embeds the text, like so:
-        //".todo-list label"
-        displayedTodoItems = page.locator(".todo-list li");
+        displayedTodoItems = todoList.displayedTodoItems();
     }
 )
 
@@ -55,7 +51,6 @@ test.describe("when adding a single todo item",
             async ( { page } ) => {
                 await expect(countOfRemainingToDos)
                                     .toHaveText("1 item left");
-                await page.close();
             }
        );
     }
