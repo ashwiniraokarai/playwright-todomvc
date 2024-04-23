@@ -1,12 +1,17 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Locator } from "@playwright/test";
+import { TodoForm } from "./page-classes/todo-form.ts";
 
-let newTodoField;
-let displayedTodoItems;
+let newTodoField: Locator;
+let displayedTodoItems: Locator;
+let todoForm: TodoForm;
 
 test.beforeEach(
     async({ page })=>{
         await page.goto("https://todomvc.com/examples/emberjs/todomvc/dist/");
-        newTodoField = page.locator(".new-todo");
+       
+        //Invoke the page object to grab locator(s)
+        todoForm = new TodoForm(page);
+        newTodoField = todoForm.newToDoField();
 
         //Instead of the li, you could even target the label inside the li directly which embeds the text, like so:
         //".todo-list label"
@@ -16,8 +21,8 @@ test.beforeEach(
 
 test("the input box should display a helpful prompt",
     async( { page }) => {
-        await expect(page.locator(".new-todo"))
-                        .toHaveAttribute("placeholder","What needs to be done?");
+        await expect(newTodoField)
+                        .toHaveAttribute("placeholder","What needs to be done?");                
     }
    
 );
