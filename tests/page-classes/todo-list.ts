@@ -24,6 +24,16 @@ export class TodoList{
         //".todo-list label"
         return this.page.locator(".todo-list li");
     }
+
+    displayedTodoItemBasedOnText(todoText: string){
+        //Instead of the li, you could even target the label inside the li directly which embeds the text, like so:
+        //".todo-list label"
+        return this.page.locator(".todo-list li", { hasText: todoText });
+    }
+
+    checkBoxBasedOnTodoItem(todoText: string){
+       return this.displayedTodoItemBasedOnText(todoText).locator('.toggle');
+    }
     
     /*
     ********************************************************************************
@@ -31,6 +41,9 @@ export class TodoList{
     resolve to elements right before they're acted on) 
     ********************************************************************************
     */
-
+    
+    async completeTheTodoItem(todoText: string){
+        await this.checkBoxBasedOnTodoItem(todoText).check();
+    }
 
 }

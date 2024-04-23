@@ -1,34 +1,48 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Locator } from "@playwright/test";
+import { Navigate } from "./page-classes/navigate";
+import { TodoForm } from "./page-classes/todo-form";
+import { TodoList } from "./page-classes/todo-list";
 
-let newTodoField;
-let displayedTodoItems;
+let navigate: Navigate;
+
+let todoForm: TodoForm;
+let newTodoField: Locator;
+
+let todoList: TodoList;
+let displayedTodoItems: Locator;
+let countOfRemainingTodos: Locator;
+let itemToComplete: Locator;
 
 test.beforeEach(
     async({page}) => {
-        await page.goto("https://todomvc.com/examples/emberjs/todomvc/dist/");
-        newTodoField = page.locator(".new-todo");
-        displayedTodoItems = page.locator(".todo-list li");
+        navigate = new Navigate(page);
+        await navigate.toHomePage();
+        
+        //grab locators into variables from relevant page objects
+        todoForm = new TodoForm(page);
+        newTodoField = todoForm.newToDoField();
+
+        todoList = new TodoList(page);
+        displayedTodoItems = todoList.displayedTodoItems();
+        countOfRemainingTodos = todoList.countOfRemainingToDos();
+        itemToComplete = todoList.displayedTodoItemBasedOnText("feed the dog");
     }
 );
 
 test.describe("when completing a single todo item from multiple todo items",
     async()=>{
-        let itemToComplete;
-
         test.beforeEach("add multiple todo items and complete one of them", 
             async({page})=>{
-                //add two items so you can complete one of them after
-                await newTodoField.fill("feed the dog");
-                await newTodoField.press("Enter");
 
-                await newTodoField.fill("snuggle with the cat");
-                await newTodoField.press("Enter");
+                //add two items so you can complete one of them after
+                await todoForm.addItem("feed the dog");
+                await todoForm.addItem("snuggle with the cat");
 
                 await expect(displayedTodoItems).toHaveCount(2);
                 await expect(displayedTodoItems).toHaveText(["feed the dog", "snuggle with the cat"]);
 
-                itemToComplete = page.locator(".todo-list li", { hasText: "feed the dog"});
-                await itemToComplete.locator(".toggle").check();
+                //complete the first item
+                await todoList.completeTheTodoItem('feed the dog');
             }
         );
 
@@ -42,7 +56,7 @@ test.describe("when completing a single todo item from multiple todo items",
 
         test("should be shown the updated count of remaining items",
             async( {page} ) => {
-                await expect(page.locator(".todo-count")).toHaveText("1 item left");
+                await expect(countOfRemainingTodos).toHaveText("1 item left");
             }
         );
     }
