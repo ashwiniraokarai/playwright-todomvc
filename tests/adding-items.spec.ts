@@ -44,7 +44,7 @@ test.describe("when adding a single todo item",
 
         test("be shown the count of remaining items", 
             async ( { page } ) => {
-                await expect(page.locator(".todo-count"))
+                await expect(todoForm.countOfRemainingToDos())
                                     .toHaveText("1 item left");
                 await page.close();
             }
@@ -68,7 +68,7 @@ test.describe("when adding multiple todo items",
 
         test("should be shown the count of remaining items",
             async( {page} ) => {
-                await expect(page.locator(".todo-count"))
+                await expect(todoForm.countOfRemainingToDos())
                                     .toHaveText("2 items left");
             }
         );

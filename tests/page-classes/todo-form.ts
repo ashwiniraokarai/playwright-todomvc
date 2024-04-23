@@ -20,6 +20,9 @@ export class TodoForm {
         return this.page.locator(".new-todo");
     }
 
+    countOfRemainingToDos(){
+        return this.page.locator(".todo-count");
+    }
     
     /*
     ********************************************************************************
