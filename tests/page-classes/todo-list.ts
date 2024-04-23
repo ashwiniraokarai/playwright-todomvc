@@ -1,7 +1,6 @@
-
 import { Page } from "@playwright/test"
 
-export class TodoForm {
+export class TodoList{
     page: Page;
 
     constructor(page: Page){
@@ -16,8 +15,8 @@ export class TodoForm {
     ********************************************************************************
     */
 
-    newToDoField(){
-        return this.page.locator(".new-todo");
+    countOfRemainingToDos(){
+        return this.page.locator(".todo-count");
     }
     
     /*
@@ -26,9 +25,4 @@ export class TodoForm {
     resolve to elements right before they're acted on) 
     ********************************************************************************
     */
-
-    async addItem(textForTodoItem: string){
-        await this.newToDoField().fill(textForTodoItem);
-        await this.newToDoField().press("Enter");
-    }
 }
