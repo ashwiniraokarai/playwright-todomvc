@@ -1,6 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 
+
+/******************DOT ENV RELATED*************************
+
 /*Control SERVER value through an OS environment variable 
 In windows command prompt:
 set SERVER=prod    //or SERVER=local
@@ -8,23 +11,22 @@ echo %SERVER%      //to confirm your setting
 */
 console.log("echo %SERVER% from OS: " + process.env.SERVER);
 
-const GRAB_FROM_OS = process.env.SERVER;
-const DEFAULT = `prod`;
-const DOT_ENV_FILE_NAME = GRAB_FROM_OS || DEFAULT
+const FILE_NAME_INPUT_FROM_OS = process.env.SERVER;
+const DEFAULT_FILE_NAME = `prod`;
+const DOT_ENV_FILE_NAME = FILE_NAME_INPUT_FROM_OS || DEFAULT_FILE_NAME;
 const DOT_ENV_FILE_PATH = `./env/.env.${DOT_ENV_FILE_NAME}`;
 
 dotenv.config({
   path: DOT_ENV_FILE_PATH,
 });
 
-/**
- * Show the environment you're running tests on
- */
+//Show the environment you're running tests o
 console.log("Loaded env config file: " + DOT_ENV_FILE_PATH +
             "\nRunning on environment: " + DOT_ENV_FILE_NAME +
             "\nAt: " + process.env.URL
 );
 
+/**************************END************************************
 
 /**
  * Read environment variables from file.
@@ -35,6 +37,7 @@ console.log("Loaded env config file: " + DOT_ENV_FILE_PATH +
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+
 export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
