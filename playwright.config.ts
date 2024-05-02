@@ -1,17 +1,30 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 
-  /*Control SERVER value through an OS environment variable 
-  In windows command prompt:
-  set SERVER=prod    //or SERVER=local
-  echo %SERVER%      //to confirm your setting
+/*Control SERVER value through an OS environment variable 
+In windows command prompt:
+set SERVER=prod    //or SERVER=local
+echo %SERVER%      //to confirm your setting
 */
-console.log("Running on environment: " + process.env.SERVER);
+console.log("echo %SERVER% from OS: " + process.env.SERVER);
+
+const GRAB_FROM_OS = process.env.SERVER;
+const DEFAULT = `prod`;
+const DOT_ENV_FILE_NAME = GRAB_FROM_OS || DEFAULT
+const DOT_ENV_FILE_PATH = `./env/.env.${DOT_ENV_FILE_NAME}`;
 
 dotenv.config({
-  //Go grab the .env file based on the value of SERVER (an env var set on the OS)
-  path: `./env/.env.${process.env.SERVER}`,
+  path: DOT_ENV_FILE_PATH,
 });
+
+/**
+ * Show the environment you're running tests on
+ */
+console.log("Loaded env config file: " + DOT_ENV_FILE_PATH +
+            "\nRunning on environment: " + DOT_ENV_FILE_NAME +
+            "\nAt: " + process.env.URL
+);
+
 
 /**
  * Read environment variables from file.
