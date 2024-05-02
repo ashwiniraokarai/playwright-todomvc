@@ -1,9 +1,17 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 
+  /*Control SERVER value through an OS environment variable 
+  In windows command prompt:
+  set SERVER=prod    //or SERVER=local
+  echo %SERVER%      //to confirm your setting
+*/
+console.log("Running on environment: " + process.env.SERVER);
+
 dotenv.config({
-  path: './env/.env.prod'
-})
+  //Go grab the .env file based on the value of SERVER (an env var set on the OS)
+  path: `./env/.env.${process.env.SERVER}`,
+});
 
 /**
  * Read environment variables from file.

@@ -8,6 +8,7 @@ export class Navigate{
     }
 
     async toHomePage(){
-        await this.page.goto("https://todomvc.com/examples/emberjs/todomvc/dist/");
+        //cast to string so the arg type (string | undefined) becomes compatible with the expected type (string)
+        await this.page.goto(process.env.URL as string);
     }
 }
