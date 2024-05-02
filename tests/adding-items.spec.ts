@@ -14,8 +14,15 @@ let navigate: Navigate;
 
 test.beforeEach(
     async({ page })=>{
+        console.log(process.env.URL);
+        console.log(process.env.WHERE);
         navigate = new Navigate(page);
-        await navigate.toHomePage();
+
+        //cast to string so the arg type (string | undefined) becomes compatible with the expected type (string)
+        page.goto(process.env.URL as string);
+
+        //uncomment when you're done confirming that the process.env.URL is picking up the value
+        //await navigate.toHomePage();
        
         //Invoke the page object to grab locator(s)
         todoForm = new TodoForm(page);
