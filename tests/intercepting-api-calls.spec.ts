@@ -1,5 +1,6 @@
 import { test } from "@playwright/test"
-import defaultObjectExported from "./test-data/articles";
+import importedArticlesObject from "./test-data/articles";
+import importedJSONFileParserObject from "./test-data/JSONFileParser";
 
 test("can intercept and modify response with your own test data (dummy/ mock data)", 
     async({page}) => {
@@ -7,10 +8,10 @@ test("can intercept and modify response with your own test data (dummy/ mock dat
         await page.route(endPointToIntercept, 
             async (route) => {
                 console.log(`Intercepting route: ${endPointToIntercept} and sending dummy response body`);
-                console.log(defaultObjectExported.articlesData());
+                console.log(importedArticlesObject.articlesData());
                 await route.fulfill({
                     //convert the JS Object that contains the test data to JSON
-                    body: JSON.stringify(defaultObjectExported.articlesData()),
+                    body: JSON.stringify(importedArticlesObject.articlesData()),
                 });
             }
         );
@@ -20,10 +21,33 @@ test("can intercept and modify response with your own test data (dummy/ mock dat
     }
 );
 
-test("can intercept and modify response data, with data extracted from a json file", 
-    async({page}) => {}
+test("can intercept and modify response data (via path), with data extracted from a json file", 
+    async({page}) => {
+        const endPointToIntercept = "https://conduit.productionready.io/api/articles?limit=10&offset=0";
+        await page.route(endPointToIntercept,
+            async(route) => {
+                await route.fulfill({
+                    path:"./tests/test-data/articles.json"
+                });
+            }
+        )
+        await page.goto("https://demo.realworld.io/#/");
+    }
 );
 
-test("can abort specific requests", 
-    async({page}) => {}
+test("can modify response data (via body), with data extracted from json file", 
+    async({page}) => {
+        const endPointToIntercept = "https://conduit.productionready.io/api/articles?limit=10&offset=0";
+        
+        await page.route(endPointToIntercept, async(route, request)=> {
+            const testDataJSONFilePath = "./tests/test-data/articles.json";
+            console.log(`Intercepting route ${request.url()} and responding with dummy data from a file`);
+            console.log(importedJSONFileParserObject.extractArticlesTestDataFrom(testDataJSONFilePath))
+            route.fulfill({
+                body: JSON.stringify(importedJSONFileParserObject.extractArticlesTestDataFrom(testDataJSONFilePath)),
+            })
+        })
+
+        await page.goto("https://demo.realworld.io/#/");
+    }
 );

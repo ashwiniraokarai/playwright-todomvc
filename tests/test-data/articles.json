@@ -1,0 +1,31 @@
+{
+    "articles": [
+        {
+            "slug":"slug-of-the-intercepted-articles-endpoint",
+            "title": "title of the intercepted articles endpoint",
+            "description": "description of the intercepted articles endpoint",
+            "body": "body of the intercepted articles endpoint",
+            "author": {
+                "username": "author: intercepted by ash karai"
+            }
+        },
+        {
+            "slug":"slug-of-the-intercepted-articles-endpoint",
+            "title": "title of the intercepted articles endpoint",
+            "description": "description of the intercepted articles endpoint",
+            "body": "body of the intercepted articles endpoint",
+            "author": {
+                "username": "author: intercepted by ash karai"
+            }
+        },
+        {
+            "slug":"slug-of-the-intercepted-articles-endpoint",
+            "title": "title of the intercepted articles endpoint",
+            "description": "description of the intercepted articles endpoint",
+            "body": "body of the intercepted articles endpoint",
+            "author": {
+                "username": "author: intercepted by ash karai"
+            }
+        }
+    ]
+}
