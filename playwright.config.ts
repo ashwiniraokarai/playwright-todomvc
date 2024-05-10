@@ -20,7 +20,7 @@ dotenv.config({
   path: DOT_ENV_FILE_PATH,
 });
 
-//Show the environment you're running tests o
+//Show the environment you're running tests on
 console.log("Loaded env config file: " + DOT_ENV_FILE_PATH +
             "\nRunning on environment: " + DOT_ENV_FILE_NAME +
             "\nAt: " + process.env.URL
