@@ -5,22 +5,22 @@ This function returns a JS/TS Object (It's not JSON. Clue: The Keys aren't Strin
 The JS Object has an Array of several Article Objects
 The resulting JS object is converted to JSON by the caller intercepting-api-calls-spec
 */
-function fakerGeneratedArticlesData() {
+function generateArticlesDataFromFaker(numberOfArticles: number) {
     return {
-        articles: fetchArticlesArray()
+        articles: fetchArrayOfArticleObjects(numberOfArticles)
     }
 }
 
 /* This function returns an Array containing several Article objects
 */
-function fetchArticlesArray(){
+function fetchArrayOfArticleObjects(numberOfArticles){
   let articleArray: any[] = [];
 
-  for(let count=0; count<10; count++){
+  for(let count=0; count<numberOfArticles; count++){
       articleArray.push(articleObject());
   }
 
-  console.log("From fetchArticlesArray method: ", articleArray[0].updatedAt);
+  console.log(`Generated ${articleArray.length} articles using faker`);
   return articleArray;
 }
 
@@ -65,4 +65,4 @@ function generateCreatedAtDate(){
  Exporting as a "default" on the other hand, allows me to wrap up the function as an object
  Plus, the importer does not have to worry about the specifics to import. And can look up callable elements using the default exported object
 */
-export default {fakerGeneratedArticlesData};
+export default {generateArticlesDataFromFaker};
