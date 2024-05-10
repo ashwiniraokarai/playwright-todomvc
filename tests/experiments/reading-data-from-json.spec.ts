@@ -1,5 +1,11 @@
 import { test } from "@playwright/test"
-import todoItemsData from "./test-data/todo-items.json"
+import todoItemsData from "../test-data/todo-items.json"
+
+
+/*
+  json data is housed in a different file and read into these tests
+  The file contents are exported as an object, then imported into this test file
+*/
 
 test("can read the entire root object", 
     async({page})=>{
