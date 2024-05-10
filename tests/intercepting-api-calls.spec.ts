@@ -1,6 +1,7 @@
 import { test } from "@playwright/test"
 import importedArticlesObject from "./test-data/articles";
 import importedRandomDataArticlesObject from "./test-data/articles-with-randomized-data";
+import importedRandomDataArticlesConciseObject from "./test-data/articles-with-randomized-data-concised";
 import importedJSONFileParserObject from "./test-data/JSONFileParser";
 
 test("can intercept and modify response with your own test data (dummy/ mock data)", 
@@ -12,8 +13,7 @@ test("can intercept and modify response with your own test data (dummy/ mock dat
                 console.log(importedArticlesObject.articlesData());
                 await route.fulfill({
                     //convert the JS Object that contains the test data to JSON
-                    //body: JSON.stringify(importedArticlesObject.articlesData()),
-                    body: JSON.stringify(importedRandomDataArticlesObject.fakerGeneratedArticlesData()),
+                    body: JSON.stringify(importedArticlesObject.articlesData()),
                 });
             }
         );
@@ -71,4 +71,5 @@ test("can modify responses data (via body) with randomized data extracted from j
 
         await page.goto("https://demo.realworld.io/#/");
     }
-)
+);
+
