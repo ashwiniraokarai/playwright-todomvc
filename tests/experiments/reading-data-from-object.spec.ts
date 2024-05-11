@@ -11,7 +11,7 @@ Essentially the data is bunch of "Article" objects (like the ones seen on blog p
 //Not doing anything on the page, so not gonna bother passing page as an arg to the callback function
 test("can read from an object serving randomized test data", 
     async() => {
-        const generatedDataObject = importedRandomDataArticlesConciseObject.fakerGeneratedArticlesData();
+        const generatedDataObject = importedRandomDataArticlesConciseObject.generateArticlesDataFromFaker(10);
         
         //check return type at the root of the data structure
         console.log(`Return type of data at the root: ${typeof(generatedDataObject)}`);
